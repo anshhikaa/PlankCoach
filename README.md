@@ -11,7 +11,7 @@ This project aims to provide an accessible AI-based solution that acts as a virt
 
 - Python
 - OpenCV
-- MediaPipe Pose Estimation
+- MediaPipe Pose Estimation - using 0.10.11 version
 - NumPy
 - Computer Vision
 - Machine Learning
@@ -34,3 +34,13 @@ Timer Tracking
 
 Currently under development
 The current focus is implementing real-time pose detection, posture evaluation rules, and an interactive feedback system.
+
+## Current Progress
+### Milestone 1: Pose Detection Pipeline 
+
+Implemented real-time human pose detection using OpenCV and MediaPipe.
+The system:
+- Captures webcam frames using opencv
+- Processes frames using a pose estimation model (BlazePose)
+- Extracts human body landmarks
+- Displays a real-time skeleton overlay
