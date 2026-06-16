@@ -56,4 +56,12 @@ The system now :
 - indentifies shoulder,hip and ankle coordinates
 - calculates real-time hip joint angle
 - responds to body movement changes
+### Milestone 2.3 : Smoothening angle values
+- Added AngleSmoothener utility using deque 
+- Computes moving average instead of relying on single frame prediction
+- Produces more stable posture measurements
+Why:
+Real-time pose estimation introduces small variations between frames leading to continuously changing result 
+Smoothing improves reliability before making posture decisions.
+
 
