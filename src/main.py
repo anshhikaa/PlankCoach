@@ -3,6 +3,7 @@ import mediapipe as mp
 from pose.detector import PoseDetector
 from analysis.posture import calculate_angle
 from pose.landmarks import (LEFT_SHOULDER,LEFT_HIP,LEFT_ANKLE, get_points)
+from utils.smoother import AngleSmoother 
 
 def main():
 
@@ -10,6 +11,7 @@ def main():
     camera = cv2.VideoCapture(0)
     # initialize 
     detector = PoseDetector()
+    smoother = AngleSmoother()
     mp_pose = mp.solutions.pose
     mp_drawing = mp.solutions.drawing_utils
 
@@ -36,7 +38,9 @@ def main():
             hip = get_points(landmarks,LEFT_HIP)
             ankle = get_points(landmarks,LEFT_ANKLE)
             angle = calculate_angle(shoulder,hip,ankle)
-            print(angle)
+        #adding angle smoother to reduce noise from the output 
+            smooth_angle = smoother.smooth(angle)
+            print(smooth_angle)
 
         
         # displays image in new window 
