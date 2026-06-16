@@ -1,6 +1,8 @@
 import cv2
 import mediapipe as mp 
 from pose.detector import PoseDetector
+from analysis.posture import calculate_angle
+from pose.landmarks import (LEFT_SHOULDER,LEFT_HIP,LEFT_ANKLE, get_points)
 
 def main():
 
@@ -28,6 +30,14 @@ def main():
                 results.pose_landmarks,
                 mp_pose.POSE_CONNECTIONS
             )
+        #sending the landmarks to the getpoint function along with the index we need to get the coordinates and send it to calculate angle 
+            landmarks = results.pose_landmarks.landmark
+            shoulder = get_points(landmarks,LEFT_SHOULDER)
+            hip = get_points(landmarks,LEFT_HIP)
+            ankle = get_points(landmarks,LEFT_ANKLE)
+            angle = calculate_angle(shoulder,hip,ankle)
+            print(angle)
+
         
         # displays image in new window 
         cv2.imshow(
