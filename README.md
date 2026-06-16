@@ -60,8 +60,8 @@ The system now :
 - Added AngleSmoothener utility using deque 
 - Computes moving average instead of relying on single frame prediction
 - Produces more stable posture measurements
-Why:
-Real-time pose estimation introduces small variations between frames leading to continuously changing result 
-Smoothing improves reliability before making posture decisions.
+- Why:
+- Real-time pose estimation introduces small variations between frames leading to continuously changing result 
+- Smoothing improves reliability before making posture decisions.
 
 
