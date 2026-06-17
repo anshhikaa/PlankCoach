@@ -28,3 +28,24 @@ def calculate_angle(a,b,c):
     return angle
 
 
+# posture analyser ->tells if a plank is good or bad 
+class PostureAnalyzer :
+    def __init__(self,min_angle= 172 , max_angle = 180):
+        self.min_angle = min_angle
+        self.max_angle = max_angle
+    def analyze(self,angle):
+        if angle is None :
+            return {
+                "status" : "NO DETECTION",
+                "feedback" : "NO POSE DETECTED"
+            }
+        if self.min_angle <= angle <= self.max_angle:
+            return {
+                "status" : "GOOD",
+                "feedback" : "GOOD FORM"
+            }
+        else :
+            return {
+                "status" : "BAD",
+                "feedback" : "BAD FORM"
+            }

@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp 
 from pose.detector import PoseDetector
-from analysis.posture import calculate_angle
+from analysis.posture import calculate_angle , PostureAnalyzer 
 from pose.landmarks import (LEFT_SHOULDER,LEFT_HIP,LEFT_ANKLE, get_points)
 from utils.smoother import AngleSmoother 
 
@@ -12,6 +12,7 @@ def main():
     # initialize 
     detector = PoseDetector()
     smoother = AngleSmoother()
+    analyzer =  PostureAnalyzer()
     mp_pose = mp.solutions.pose
     mp_drawing = mp.solutions.drawing_utils
 
@@ -40,8 +41,32 @@ def main():
             angle = calculate_angle(shoulder,hip,ankle)
         #adding angle smoother to reduce noise from the output 
             smooth_angle = smoother.smooth(angle)
-            print(smooth_angle)
-
+        # feedback -GOOD/BAD
+            result = analyzer.analyze(smooth_angle)
+        # feedback all the angle(plank) calculated printed in terminal
+            # print(result["status"])
+            # print(result["feedback"])
+        # feedback overlays on the frame
+        # text feedback
+        cv2.putText(
+            frame,
+            result["feedback"],
+            (50,50),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1,
+            (0,255,0),
+            2
+        )
+        # angle
+        cv2.putText(
+            frame,
+            f"Angle : {smooth_angle:.2f}",
+            (50,100),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (255,255,255),
+            2
+        )
         
         # displays image in new window 
         cv2.imshow(
