@@ -68,18 +68,6 @@ The system now :
 - Added analysis layer using PostureAnalyzer class 
 - Defined a range for good form and bad form 
 - Angle are computer using 2D vectors 
-### Milestone 3.2 : Robust Real time plank posture analysis (3D)
-- why :
-1) 2d required the user to keep the camera a certain way , as only x,y dimensions were involved .
-2) 3D gives full information about the body overcoming projection ambiguity 
-3) allows the user to keep the camera anywhere still gives correct results 
-### Milestone 3.3 : Making the calculation camera distance independent
-- shifted from pose_landmarks to pose_world_landmarks 
-- Problem in pose_landmark :
-1) the x,y coordinates were camera dependent , hence making the baseline angle change for every distance
-- How pose_world_landmark fixes :
-1) pose_world_landmarks calculates the x,y,z coordinates in meter which makes the angle calculations are the same irrespective of the distance between body and camera , more robust
-
 ### Milestone 3.2 : Robust Real-Time Plank Posture Analysis (3D)
 #### Why?
 The initial approach used 2D landmark coordinates `(x, y)` to calculate the hip angle.
@@ -113,7 +101,7 @@ Benefits:
 - Less sensitivity to camera distance
 - More robust real-time posture detection
 Current pipeline:
-Camera  .
+Camera  
 ↓
 MediaPipe Pose
 ↓
