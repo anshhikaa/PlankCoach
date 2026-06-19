@@ -61,7 +61,69 @@ The system now :
 - Computes moving average instead of relying on single frame prediction
 - Produces more stable posture measurements
 - Why:
-- Real-time pose estimation introduces small variations between frames leading to continuously changing result 
-- Smoothing improves reliability before making posture decisions.
+1)  Real-time pose estimation introduces small variations between frames leading to continuously changing result 
+2)  Smoothing improves reliability before making posture decisions.
 
+### Milestone 3.1 : Real time plank posture analysis (2D) 
+- Added analysis layer using PostureAnalyzer class 
+- Defined a range for good form and bad form 
+- Angle are computer using 2D vectors 
+### Milestone 3.2 : Robust Real time plank posture analysis (3D)
+- why :
+1) 2d required the user to keep the camera a certain way , as only x,y dimensions were involved .
+2) 3D gives full information about the body overcoming projection ambiguity 
+3) allows the user to keep the camera anywhere still gives correct results 
+### Milestone 3.3 : Making the calculation camera distance independent
+- shifted from pose_landmarks to pose_world_landmarks 
+- Problem in pose_landmark :
+1) the x,y coordinates were camera dependent , hence making the baseline angle change for every distance
+- How pose_world_landmark fixes :
+1) pose_world_landmarks calculates the x,y,z coordinates in meter which makes the angle calculations are the same irrespective of the distance between body and camera , more robust
+
+### Milestone 3.2 : Robust Real-Time Plank Posture Analysis (3D)
+#### Why?
+The initial approach used 2D landmark coordinates `(x, y)` to calculate the hip angle.
+Limitations:
+1. The analysis depended heavily on camera placement.
+2. Since a 3D body is projected onto a 2D image plane, different real-world poses can appear similar due to projection ambiguity.
+3. A slightly different camera angle could change the calculated posture angle.
+
+#### Solution
+Moved from 2D geometric analysis to 3D landmark-based analysis.
+Using the depth information provided by MediaPipe, the posture angle is calculated using:
+- X coordinate
+- Y coordinate
+- Z coordinate (depth)
+This provides a more robust representation of body alignment.
+### Milestone 3.3 : Making Angle Calculation More Camera Distance Independent
+#### Problem with `pose_landmarks`
+MediaPipe's normal pose landmarks provide normalized image coordinates.
+The values depend on:
+- camera view
+- subject position in the frame
+- distance from camera
+Because of this, the same plank posture could produce slightly different angles when the user moved closer or farther from the camera.
+#### Solution
+- Switched from pose_landmarks to pose_world_landmarks
+#### Why `pose_world_landmarks`?
+`pose_world_landmarks` provides an estimated 3D body representation in real-world units.
+This allows angle calculation using body coordinates rather than image projection.
+Benefits:
+- More stable angle calculation
+- Less sensitivity to camera distance
+- More robust real-time posture detection
+Current pipeline:
+Camera  .
+↓
+MediaPipe Pose
+↓
+World Landmarks
+↓
+3D Hip Angle Calculation
+↓
+Temporal Smoothing
+↓
+Rule-Based Posture Classification
+↓
+Feedback
 
