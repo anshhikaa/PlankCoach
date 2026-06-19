@@ -9,6 +9,7 @@ def main():
 
     # starts connection to webcam - SETUP CAPTURE
     camera = cv2.VideoCapture(0)
+
     # initialize 
     detector = PoseDetector()
     smoother = AngleSmoother()
@@ -22,19 +23,26 @@ def main():
         success,frame = camera.read()
         if not success :
             break
-        
+        #default feedback for frame without pose 
+        result = {
+            "feedback" : "NO POSE",
+            "color" : (0,0,255)
+        }
+        smooth_angle = 0
+
         # stores results
         results = detector.detect(frame)   
 
         #if results exists then draw the landmarks
-        if results.pose_landmarks:
+        if results.pose_world_landmarks:
             mp_drawing.draw_landmarks(
                 frame,
                 results.pose_landmarks,
                 mp_pose.POSE_CONNECTIONS
             )
+
         #sending the landmarks to the getpoint function along with the index we need to get the coordinates and send it to calculate angle 
-            landmarks = results.pose_landmarks.landmark
+            landmarks = results.pose_world_landmarks.landmark
             shoulder = get_points(landmarks,LEFT_SHOULDER)
             hip = get_points(landmarks,LEFT_HIP)
             ankle = get_points(landmarks,LEFT_ANKLE)
@@ -43,9 +51,11 @@ def main():
             smooth_angle = smoother.smooth(angle)
         # feedback -GOOD/BAD
             result = analyzer.analyze(smooth_angle)
+
         # feedback all the angle(plank) calculated printed in terminal
             # print(result["status"])
             # print(result["feedback"])
+
         # feedback overlays on the frame
         # text feedback
         cv2.putText(
@@ -54,7 +64,7 @@ def main():
             (50,50),
             cv2.FONT_HERSHEY_SIMPLEX,
             1,
-            (0,255,0),
+            result["color"],
             2
         )
         # angle

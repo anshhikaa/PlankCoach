@@ -6,5 +6,5 @@ LEFT_ANKLE = 27
 # function to get these landmarks.x  landmark.y ->coordinates 
 def get_points(landmark,index):
     point = landmark[index]
-    return (point.x , point.y)
+    return (point.x , point.y , point.z)
     
