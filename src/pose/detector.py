@@ -10,3 +10,4 @@ class PoseDetector :
     def detect(self,frame):
         results = self.pose.process(frame)
         return results
+

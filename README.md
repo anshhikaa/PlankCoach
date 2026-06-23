@@ -115,3 +115,9 @@ Rule-Based Posture Classification
 ↓
 Feedback
 
+### Milestone 4.1 : Data Collection for the ML classifier 
+- Implemented labeled pose data collection 
+- Stored them in a CSV file
+- Formed timer logic for countdown and recording 
+- Generated balanced dataset (927 samples)
+- each sample contains (33 landmarks *3 coordinates + hip_angle) - 100 features + corresponding label
