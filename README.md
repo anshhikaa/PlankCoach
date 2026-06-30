@@ -121,3 +121,9 @@ Feedback
 - Formed timer logic for countdown and recording 
 - Generated balanced dataset (927 samples)
 - each sample contains (33 landmarks *3 coordinates + hip_angle) - 100 features + corresponding label
+### Milestone 4.2 : Dataset analysis using pandas 
+- Added csv header support
+- Checked the shape of dataset(row X col)
+- Checked for missing values
+- Evaluated angle feature separation (proving that angle is a weak feature to classify a good plank)
+
